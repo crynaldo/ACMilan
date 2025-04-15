@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real Sociedad Lineup Builder</title>
+  <title>Real Sociedad</title>
   <style>
     /* Reset and base styles */
     * {
@@ -17,35 +17,654 @@
       background-color: #f8fafc;
       color: #1e293b;
       line-height: 1.5;
+      min-height: 100vh;
     }
 
     /* Container styles */
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
 
-    /* Header styles */
-    .header {
-      background: linear-gradient(to right, #0052cc, #0039a6);
-      color: white;
-      padding: 16px;
-      border-radius: 12px 12px 0 0;
+    /* Button styles */
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
     }
 
-    .header h1 {
+    .button-primary {
+      background-color: #0052cc;
+      color: white;
+      border: none;
+      box-shadow: 0 10px 15px -3px rgba(0, 82, 204, 0.2);
+    }
+
+    .button-primary:hover {
+      background-color: #0039a6;
+      box-shadow: 0 15px 20px -3px rgba(0, 82, 204, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .button-outline {
+      background-color: white;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-outline:hover {
+      background-color: #f8fafc;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .button-ghost {
+      background: none;
+      color: #0052cc;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+    }
+
+    .button-ghost:hover {
+      background-color: rgba(0, 82, 204, 0.05);
+    }
+
+    .button-sm {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    /* Card styles */
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin-bottom: 24px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+      padding: 20px;
+    }
+
+    .card-header-blue {
+      background: linear-gradient(to right, #0052cc, #0039a6);
+      color: white;
+    }
+
+    .card-title {
       font-size: 24px;
-      font-weight: bold;
+      font-weight: 600;
       margin-bottom: 4px;
     }
 
-    .header p {
+    .card-description {
       font-size: 14px;
+      color: #94a3b8;
+    }
+
+    .card-description-light {
       color: #bfdbfe;
     }
 
-    /* Controls section */
+    .card-content {
+      padding: 20px;
+    }
+
+    /* Table styles */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 500;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Class colors */
+    .class-a {
+      color: #16a34a;
+      font-weight: 600;
+    }
+
+    .class-b {
+      color: #0284c7;
+      font-weight: 600;
+    }
+
+    .class-c {
+      color: #d97706;
+      font-weight: 600;
+    }
+
+    .class-d {
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* Textarea styles */
+    .textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 16px;
+      min-height: 120px;
+      resize: none;
+    }
+
+    /* Flex utilities */
+    .flex {
+      display: flex;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .gap-2 {
+      gap: 8px;
+    }
+
+    .gap-4 {
+      gap: 16px;
+    }
+
+    .gap-6 {
+      gap: 24px;
+    }
+
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+
+    /* Spacing utilities */
+    .mt-1 {
+      margin-top: 4px;
+    }
+
+    .mt-2 {
+      margin-top: 8px;
+    }
+
+    .mt-4 {
+      margin-top: 16px;
+    }
+
+    .mt-6 {
+      margin-top: 24px;
+    }
+
+    .mt-8 {
+      margin-top: 32px;
+    }
+
+    .mb-1 {
+      margin-bottom: 4px;
+    }
+
+    .mb-2 {
+      margin-bottom: 8px;
+    }
+
+    .mb-4 {
+      margin-bottom: 16px;
+    }
+
+    .mb-6 {
+      margin-bottom: 24px;
+    }
+
+    .mb-8 {
+      margin-bottom: 32px;
+    }
+
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .p-4 {
+      padding: 16px;
+    }
+
+    .p-6 {
+      padding: 24px;
+    }
+
+    .p-8 {
+      padding: 32px;
+    }
+
+    .py-2 {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    .py-4 {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+
+    .py-8 {
+      padding-top: 32px;
+      padding-bottom: 32px;
+    }
+
+    .py-12 {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+
+    .py-16 {
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+
+    .py-24 {
+      padding-top: 96px;
+      padding-bottom: 96px;
+    }
+
+    .px-2 {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    .px-4 {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* Text utilities */
+    .text-center {
+      text-align: center;
+    }
+
+    .text-sm {
+      font-size: 14px;
+    }
+
+    .text-lg {
+      font-size: 18px;
+    }
+
+    .text-xl {
+      font-size: 20px;
+    }
+
+    .text-2xl {
+      font-size: 24px;
+    }
+
+    .text-3xl {
+      font-size: 30px;
+    }
+
+    .text-4xl {
+      font-size: 36px;
+    }
+
+    .text-5xl {
+      font-size: 48px;
+    }
+
+    .text-6xl {
+      font-size: 60px;
+    }
+
+    .font-medium {
+      font-weight: 500;
+    }
+
+    .font-semibold {
+      font-weight: 600;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .text-white {
+      color: white;
+    }
+
+    .text-slate-500 {
+      color: #64748b;
+    }
+
+    .text-slate-600 {
+      color: #475569;
+    }
+
+    .text-slate-700 {
+      color: #334155;
+    }
+
+    .text-slate-800 {
+      color: #1e293b;
+    }
+
+    .text-slate-900 {
+      color: #0f172a;
+    }
+
+    .text-blue-100 {
+      color: #bfdbfe;
+    }
+
+    .text-blue-600 {
+      color: #2563eb;
+    }
+
+    .text-blue-800 {
+      color: #1e40af;
+    }
+
+    .text-green-600 {
+      color: #16a34a;
+    }
+
+    /* Background utilities */
+    .bg-white {
+      background-color: white;
+    }
+
+    .bg-slate-50 {
+      background-color: #f8fafc;
+    }
+
+    .bg-slate-100 {
+      background-color: #f1f5f9;
+    }
+
+    .bg-slate-900 {
+      background-color: #0f172a;
+    }
+
+    .bg-blue-50 {
+      background-color: #eff6ff;
+    }
+
+    .bg-blue-100 {
+      background-color: #dbeafe;
+    }
+
+    .bg-blue-600 {
+      background-color: #2563eb;
+    }
+
+    .bg-gradient-blue {
+      background: linear-gradient(to right, #0052cc, #0039a6);
+    }
+
+    /* Border utilities */
+    .rounded-md {
+      border-radius: 6px;
+    }
+
+    .rounded-lg {
+      border-radius: 8px;
+    }
+
+    .rounded-xl {
+      border-radius: 12px;
+    }
+
+    .rounded-2xl {
+      border-radius: 16px;
+    }
+
+    .rounded-3xl {
+      border-radius: 24px;
+    }
+
+    .rounded-full {
+      border-radius: 9999px;
+    }
+
+    .border {
+      border: 1px solid #e2e8f0;
+    }
+
+    .border-2 {
+      border: 2px solid #e2e8f0;
+    }
+
+    /* Shadow utilities */
+    .shadow-md {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-xl {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .shadow-2xl {
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Hero section styles */
+    .hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, rgba(0, 82, 204, 0.05), #f8fafc, rgba(0, 82, 204, 0.1));
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 32px 16px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background-color: #dbeafe;
+      color: #1e40af;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      background: linear-gradient(to right, #1e40af, #2563eb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-description {
+      font-size: 20px;
+      color: #475569;
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    /* Feature section styles */
+    .features {
+      padding: 64px 0;
+      background-color: #f8fafc;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .feature-card {
+      background-color: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 24px;
+      color: white;
+    }
+
+    .feature-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+
+    .feature-description {
+      color: #64748b;
+    }
+
+    /* Footer styles */
+    .footer {
+      background-color: #0f172a;
+      color: white;
+      padding: 24px 0;
+      text-align: center;
+    }
+
+    .footer-text {
+      color: #94a3b8;
+    }
+
+    /* Tryout section styles */
+    .tryout-card {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .discord-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .discord-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .discord-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #dbeafe;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2563eb;
+    }
+
+    .discord-username {
+      font-weight: 500;
+      color: #0f172a;
+    }
+
+    .discord-label {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    /* Lineup builder styles */
+    .lineup-builder {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
     .controls {
       display: flex;
       flex-wrap: wrap;
@@ -101,41 +720,6 @@
       color: #64748b;
     }
 
-    /* Button styles */
-    .button {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: 1px solid #cbd5e1;
-      background-color: white;
-      color: #1e293b;
-    }
-
-    .button:hover {
-      background-color: #f8fafc;
-    }
-
-    .button-primary {
-      background-color: #0052cc;
-      color: white;
-      border: none;
-    }
-
-    .button-primary:hover {
-      background-color: #0039a6;
-    }
-
-    .button-icon {
-      width: 16px;
-      height: 16px;
-    }
-
     /* Field styles */
     .field-container {
       position: relative;
@@ -144,7 +728,6 @@
       background-color: #15803d;
       overflow: hidden;
       touch-action: none;
-      border-radius: 0 0 12px 12px;
     }
 
     .field {
@@ -345,31 +928,67 @@
       font-size: 14px;
     }
 
-    /* Footer */
-    .footer {
-      padding: 16px;
-      background-color: #f8fafc;
-      text-align: center;
+    /* Navigation */
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      border-radius: 6px;
       font-size: 14px;
-      color: #64748b;
-      border-radius: 0 0 12px 12px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #2563eb;
+      background: none;
+      border: none;
+      transition: all 0.2s;
     }
 
-    /* Color indicator */
-    .color-indicator {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      margin-right: 8px;
-      vertical-align: middle;
+    .nav-button:hover {
+      background-color: rgba(37, 99, 235, 0.05);
+    }
+
+    /* Section styles */
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     /* Responsive adjustments */
-    @media (max-width: 640px) {
-      .controls {
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .hero-description {
+        font-size: 18px;
+      }
+
+      .hero-buttons {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+      }
+
+      .button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
       }
 
       .player-jersey {
@@ -377,129 +996,400 @@
         height: 40px;
         font-size: 16px;
       }
-
-      .button span {
-        display: none;
-      }
     }
 
-    /* Card container */
-    .card {
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
       background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      margin-bottom: 24px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      padding: 16px;
+      max-width: 300px;
+      z-index: 100;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .toast-message {
+      font-size: 14px;
+      color: #64748b;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="card">
-      <div class="header">
-        <h1>Real Sociedad Lineup Builder</h1>
-        <p>Drag players to position them on the field</p>
+    <!-- Home Section -->
+    <section id="home-section" class="section active">
+      <!-- Hero Section -->
+      <div class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+          <span class="hero-badge">OFFICIAL TEAM</span>
+          <h1 class="hero-title">Real Sociedad</h1>
+          <p class="hero-description">
+            Experience excellence in every match. Our squad represents the pinnacle of talent, dedication, and sporting achievement.
+          </p>
+          <div class="hero-buttons">
+            <button class="button button-primary" onclick="showSection('squad-section')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              See Squad Sheet
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+            <button class="button button-outline" onclick="showSection('tryout-section')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+              Wanna get signed?
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div class="controls">
-        <div class="control-group">
-          <div class="control-item">
-            <label class="control-label">Formation</label>
-            <div class="select-wrapper">
-              <select id="formation-select" class="select">
-                <option value="442">4-4-2</option>
-                <option value="433">4-3-3</option>
-                <option value="4231">4-2-3-1</option>
-                <option value="352">3-5-2</option>
-                <option value="532">5-3-2</option>
-              </select>
+      <!-- Lineup Builder Section -->
+      <div class="py-16 bg-white">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">Create Your Dream Lineup</h2>
+          <p class="text-slate-600 max-w-2xl mx-auto text-lg">
+            Drag and drop players to create your ideal formation. Customize jerseys and player details.
+          </p>
+        </div>
+
+        <div class="lineup-builder card">
+          <div class="card-header card-header-blue">
+            <h2 class="card-title">Interactive Lineup Builder</h2>
+            <p class="card-description card-description-light">Drag players to position them on the field</p>
+          </div>
+
+          <div class="controls">
+            <div class="control-group">
+              <div class="control-item">
+                <label class="control-label">Formation</label>
+                <div class="select-wrapper">
+                  <select id="formation-select" class="select">
+                    <option value="442">4-4-2</option>
+                    <option value="433">4-3-3</option>
+                    <option value="4231">4-2-3-1</option>
+                    <option value="352">3-5-2</option>
+                    <option value="532">5-3-2</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="control-item">
+                <label class="control-label">Jersey Color</label>
+                <div class="select-wrapper">
+                  <select id="color-select" class="select">
+                    <option value="blue" data-primary="#0052cc" data-secondary="#ffffff">
+                      Blue
+                    </option>
+                    <option value="red" data-primary="#e60000" data-secondary="#ffffff">
+                      Red
+                    </option>
+                    <option value="white" data-primary="#ffffff" data-secondary="#000000">
+                      White
+                    </option>
+                    <option value="black" data-primary="#000000" data-secondary="#ffffff">
+                      Black
+                    </option>
+                    <option value="green" data-primary="#00994d" data-secondary="#ffffff">
+                      Green
+                    </option>
+                    <option value="yellow" data-primary="#ffcc00" data-secondary="#000000">
+                      Yellow
+                    </option>
+                    <option value="purple" data-primary="#7a00cc" data-secondary="#ffffff">
+                      Purple
+                    </option>
+                    <option value="orange" data-primary="#ff6600" data-secondary="#ffffff">
+                      Orange
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <button class="button button-sm">
+                <svg class="button-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                <span>Save</span>
+              </button>
+              <button class="button button-sm">
+                <svg class="button-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Export</span>
+              </button>
+              <button class="button button-sm">
+                <svg class="button-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                <span>Share</span>
+              </button>
             </div>
           </div>
 
-          <div class="control-item">
-            <label class="control-label">Jersey Color</label>
-            <div class="select-wrapper">
-              <select id="color-select" class="select">
-                <option value="blue" data-primary="#0052cc" data-secondary="#ffffff">
-                  Blue
-                </option>
-                <option value="red" data-primary="#e60000" data-secondary="#ffffff">
-                  Red
-                </option>
-                <option value="white" data-primary="#ffffff" data-secondary="#000000">
-                  White
-                </option>
-                <option value="black" data-primary="#000000" data-secondary="#ffffff">
-                  Black
-                </option>
-                <option value="green" data-primary="#00994d" data-secondary="#ffffff">
-                  Green
-                </option>
-                <option value="yellow" data-primary="#ffcc00" data-secondary="#000000">
-                  Yellow
-                </option>
-                <option value="purple" data-primary="#7a00cc" data-secondary="#ffffff">
-                  Purple
-                </option>
-                <option value="orange" data-primary="#ff6600" data-secondary="#ffffff">
-                  Orange
-                </option>
-              </select>
+          <div id="field-container" class="field-container">
+            <div class="field">
+              <!-- Field markings -->
+              <div class="center-circle"></div>
+              <div class="center-line"></div>
+              <div class="penalty-area-top"></div>
+              <div class="penalty-area-bottom"></div>
+              <div class="goal-area-top"></div>
+              <div class="goal-area-bottom"></div>
+              
+              <!-- Players will be added here dynamically -->
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 text-center text-sm text-slate-500">
+            <span id="instructions">Click on a player to edit their details. Drag players to position them on the field.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature section -->
+      <div class="features">
+        <div class="container">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">World-Class Team Structure</h2>
+            <p class="text-slate-600 max-w-2xl mx-auto text-lg">
+              Our classification system ensures players receive the recognition and compensation they deserve.
+            </p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" style="background: linear-gradient(to bottom right, #16a34a, #15803d);">🏆</div>
+              <h3 class="feature-title">Elite Players</h3>
+              <p class="feature-description">Our A-class players represent the highest level of talent with exceptional skills and performance.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon" style="background: linear-gradient(to bottom right, #2563eb, #1d4ed8);">📈</div>
+              <h3 class="feature-title">Professional Development</h3>
+              <p class="feature-description">From D to A class, we provide a clear path for growth and advancement in your football career.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon" style="background: linear-gradient(to bottom right, #eab308, #ca8a04);">💰</div>
+              <h3 class="feature-title">Competitive Compensation</h3>
+              <p class="feature-description">Our wage structure rewards excellence with packages up to €250,000 for top performers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="container">
+          <p class="footer-text">© <span id="current-year"></span> Real Sociedad. All rights reserved.</p>
+        </div>
+      </footer>
+    </section>
+
+    <!-- Squad Sheet Section -->
+    <section id="squad-section" class="section">
+      <div class="container py-8">
+        <button class="nav-button mb-6" onclick="showSection('home-section')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Back to Home
+        </button>
+
+        <div class="card border-2">
+          <div class="card-header card-header-blue">
+            <div class="flex items-center gap-2">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <h2 class="card-title">Real Sociedad Squad Sheet</h2>
+            </div>
+            <p class="card-description card-description-light">Official team roster and positions</p>
+          </div>
+          <div class="card-content p-6">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="w-[100px]">Position</th>
+                    <th>Player Name</th>
+                    <th class="w-[100px]">Class</th>
+                    <th class="w-[150px]">Wage</th>
+                  </tr>
+                </thead>
+                <tbody id="squad-table-body">
+                  <!-- Squad data will be populated here -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
 
-        <div class="control-group">
-          <button class="button">
-            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-              <polyline points="17 21 17 13 7 13 7 21"></polyline>
-              <polyline points="7 3 7 8 15 8"></polyline>
-            </svg>
-            <span>Save</span>
-          </button>
-          <button class="button">
-            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            <span>Export</span>
-          </button>
-          <button class="button">
-            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="18" cy="5" r="3"></circle>
-              <circle cx="6" cy="12" r="3"></circle>
-              <circle cx="18" cy="19" r="3"></circle>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-            <span>Share</span>
-          </button>
+        <!-- Feedback Section -->
+        <div class="flex flex-col items-center space-y-4 mt-8">
+          <div id="feedback-button-container">
+            <button id="show-feedback-button" class="button button-primary">
+              Got any feedback?
+            </button>
+          </div>
+          <div id="feedback-form-container" class="w-full max-w-2xl" style="display: none;">
+            <div class="card border-2">
+              <div class="card-header bg-blue-50">
+                <h3 class="card-title text-blue-800">Share Your Feedback</h3>
+                <p class="card-description">We value your input to improve our squad sheet and team information.</p>
+              </div>
+              <div class="card-content p-6 space-y-4">
+                <textarea id="feedback-textarea" class="textarea" placeholder="Type your feedback here..."></textarea>
+                <div class="flex justify-between items-center">
+                  <button id="cancel-feedback-button" class="button button-outline">
+                    Cancel
+                  </button>
+                  <button id="send-feedback-button" class="button button-primary">
+                    Send
+                  </button>
+                </div>
+                <p class="text-sm text-slate-500 italic mt-4 text-center">
+                  To make sure we receive your feedback, screenshot your text and send it to us!
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div id="field-container" class="field-container">
-        <div class="field">
-          <!-- Field markings -->
-          <div class="center-circle"></div>
-          <div class="center-line"></div>
-          <div class="penalty-area-top"></div>
-          <div class="penalty-area-bottom"></div>
-          <div class="goal-area-top"></div>
-          <div class="goal-area-bottom"></div>
-          
-          <!-- Players will be added here dynamically -->
+    <!-- Tryout Section -->
+    <section id="tryout-section" class="section">
+      <div class="container py-8">
+        <button class="nav-button mb-6" onclick="showSection('home-section')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Back to Home
+        </button>
+
+        <div class="tryout-card card">
+          <div class="card-header card-header-blue">
+            <h2 class="card-title">Want to join Real Sociedad?</h2>
+            <p class="card-description card-description-light">We're looking for talented players to strengthen our squad</p>
+          </div>
+          <div class="card-content p-8">
+            <div class="mb-8">
+              <h3 class="text-2xl font-semibold mb-4 text-slate-900">How to get a tryout</h3>
+              <p class="text-slate-600 mb-6">
+                If you're interested in showcasing your skills and potentially joining our team, please contact our
+                assistant manager directly on Discord:
+              </p>
+
+              <div class="discord-box">
+                <div class="discord-info">
+                  <div class="discord-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="discord-label">Discord Username</p>
+                    <p class="discord-username" id="discord-username">alba.1iq</p>
+                  </div>
+                </div>
+                <button id="copy-discord-button" class="button button-sm">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-medium mb-3 text-slate-900">What to include in your message:</h3>
+              <ul class="space-y-2 text-slate-600 list-disc pl-5">
+                <li>Your name and age</li>
+                <li>Your playing experience</li>
+                <li>Your preferred position</li>
+                <li>Any notable achievements</li>
+                <li>Why you want to join Real Sociedad</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="footer">
-        <span id="instructions">Click on a player to edit their details. Drag players to position them on the field.</span>
-      </div>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <div class="toast-title">Username copied!</div>
+      <div class="toast-message">alba.1iq has been copied to your clipboard.</div>
     </div>
   </div>
 
   <script>
+    // Player data organized by position
+    const squadData = [
+      { name: "simplyayapper", position: "M", class: "D", wage: "60,000-90,000€" },
+      { name: "secondbestinmps", position: "AM", class: "A", wage: "250,000€" },
+      { name: "batsins", position: "P", class: "A", wage: "250,000€" },
+      { name: "tom577576", position: "P", class: "B", wage: "170,000€" },
+      { name: "insxghne", position: "P", class: "B", wage: "170,000€" },
+      { name: "Andreygo2008", position: "P", class: "B", wage: "170,000€" },
+      { name: "Wkytron", position: "P", class: "A", wage: "250,000€" },
+      { name: "deeggeaa", position: "P", class: "D", wage: "60,000-90,000€" },
+      { name: "Daff0super", position: "P", class: "B", wage: "170,000€" },
+      { name: "myzola", position: "P", class: "B", wage: "170,000€" },
+      { name: "mayozer5", position: "P", class: "C", wage: "120,000€" },
+      { name: "sharknaldo6263", position: "P", class: "C", wage: "120,000€" },
+      { name: "xlraqi", position: "P", class: "B", wage: "170,000€" },
+      { name: "x135_law", position: "P", class: "D", wage: "60,000-90,000€" },
+      { name: "Spxtacularxzz", position: "P", class: "C", wage: "120,000€" },
+      { name: "end0fdev", position: "P", class: "C", wage: "120,000€" },
+      { name: "JaSamVelikiCrnac", position: "P", class: "D", wage: "60,000-90,000€" },
+      { name: "DrissaoZoo", position: "P", class: "C", wage: "120,000€" },
+      { name: "IDHANp", position: "P", class: "C", wage: "120,000€" },
+    ];
+
     // Formation positions
     const formationPositions = {
       "442": [
@@ -571,6 +1461,137 @@
 
     // Main application
     document.addEventListener('DOMContentLoaded', function() {
+      // Set current year in footer
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+
+      // Initialize squad sheet
+      initSquadSheet();
+
+      // Initialize feedback form
+      initFeedbackForm();
+
+      // Initialize tryout section
+      initTryoutSection();
+
+      // Initialize lineup builder
+      initLineupBuilder();
+    });
+
+    // Show a specific section
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Show the requested section
+      document.getElementById(sectionId).classList.add('active');
+
+      // Scroll to top
+      window.scrollTo(0, 0);
+    }
+
+    // Initialize squad sheet
+    function initSquadSheet() {
+      const tableBody = document.getElementById('squad-table-body');
+      
+      // Clear existing rows
+      tableBody.innerHTML = '';
+      
+      // Add player rows
+      squadData.forEach(player => {
+        const row = document.createElement('tr');
+        
+        // Get class color
+        let classColor = '';
+        switch (player.class) {
+          case 'A': classColor = 'class-a'; break;
+          case 'B': classColor = 'class-b'; break;
+          case 'C': classColor = 'class-c'; break;
+          case 'D': classColor = 'class-d'; break;
+        }
+        
+        row.innerHTML = `
+          <td class="font-medium">${player.position}</td>
+          <td>${player.name}</td>
+          <td class="${classColor}">${player.class}</td>
+          <td>${player.wage}</td>
+        `;
+        
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Initialize feedback form
+    function initFeedbackForm() {
+      const showFeedbackButton = document.getElementById('show-feedback-button');
+      const cancelFeedbackButton = document.getElementById('cancel-feedback-button');
+      const sendFeedbackButton = document.getElementById('send-feedback-button');
+      const feedbackButtonContainer = document.getElementById('feedback-button-container');
+      const feedbackFormContainer = document.getElementById('feedback-form-container');
+      const feedbackTextarea = document.getElementById('feedback-textarea');
+      
+      showFeedbackButton.addEventListener('click', function() {
+        feedbackButtonContainer.style.display = 'none';
+        feedbackFormContainer.style.display = 'block';
+      });
+      
+      cancelFeedbackButton.addEventListener('click', function() {
+        feedbackButtonContainer.style.display = 'block';
+        feedbackFormContainer.style.display = 'none';
+        feedbackTextarea.value = '';
+      });
+      
+      sendFeedbackButton.addEventListener('click', function() {
+        if (feedbackTextarea.value.trim() === '') return;
+        
+        // Show toast notification
+        const toast = document.getElementById('toast');
+        toast.querySelector('.toast-title').textContent = 'Feedback sent!';
+        toast.querySelector('.toast-message').textContent = 'Thank you for your feedback.';
+        toast.classList.add('show');
+        
+        // Hide toast after 3 seconds
+        setTimeout(function() {
+          toast.classList.remove('show');
+        }, 3000);
+        
+        // Reset form
+        feedbackButtonContainer.style.display = 'block';
+        feedbackFormContainer.style.display = 'none';
+        feedbackTextarea.value = '';
+      });
+    }
+
+    // Initialize tryout section
+    function initTryoutSection() {
+      const copyDiscordButton = document.getElementById('copy-discord-button');
+      const discordUsername = document.getElementById('discord-username').textContent;
+      
+      copyDiscordButton.addEventListener('click', function() {
+        // Copy to clipboard
+        navigator.clipboard.writeText(discordUsername);
+        
+        // Update button text
+        const originalText = copyDiscordButton.innerHTML;
+        copyDiscordButton.innerHTML = '<span>Copied!</span>';
+        copyDiscordButton.classList.add('bg-green-50', 'text-green-600', 'border-green-200');
+        
+        // Show toast notification
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        
+        // Reset button and hide toast after 3 seconds
+        setTimeout(function() {
+          copyDiscordButton.innerHTML = originalText;
+          copyDiscordButton.classList.remove('bg-green-50', 'text-green-600', 'border-green-200');
+          toast.classList.remove('show');
+        }, 3000);
+      });
+    }
+
+    // Initialize lineup builder
+    function initLineupBuilder() {
       // Elements
       const fieldContainer = document.getElementById('field-container');
       const field = fieldContainer.querySelector('.field');
@@ -929,7 +1950,7 @@
 
       // Initialize with default formation
       initPlayers(formationSelect.value);
-    });
+    }
   </script>
 </body>
 </html>
