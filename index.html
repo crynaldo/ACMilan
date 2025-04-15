@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Sociedad Lineup Builder</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    /* Container styles */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header styles */
+    .header {
+      background: linear-gradient(to right, #0052cc, #0039a6);
+      color: white;
+      padding: 16px;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #bfdbfe;
+    }
+
+    /* Controls section */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px;
+      border-bottom: 1px solid #e2e8f0;
+      background-color: white;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      gap: 16px;
+    }
+
+    .control-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .control-label {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    /* Select styles */
+    .select-wrapper {
+      position: relative;
+      width: 120px;
+    }
+
+    .select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background-color: white;
+      font-size: 14px;
+      cursor: pointer;
+      appearance: none;
+    }
+
+    .select-wrapper::after {
+      content: "▼";
+      font-size: 10px;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #64748b;
+    }
+
+    /* Button styles */
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid #cbd5e1;
+      background-color: white;
+      color: #1e293b;
+    }
+
+    .button:hover {
+      background-color: #f8fafc;
+    }
+
+    .button-primary {
+      background-color: #0052cc;
+      color: white;
+      border: none;
+    }
+
+    .button-primary:hover {
+      background-color: #0039a6;
+    }
+
+    .button-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Field styles */
+    .field-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      background-color: #15803d;
+      overflow: hidden;
+      touch-action: none;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .field {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px),
+        radial-gradient(circle at center, white 0.5%, transparent 1%),
+        radial-gradient(circle at 50% 0%, white 0.5%, transparent 1%),
+        radial-gradient(circle at 50% 100%, white 0.5%, transparent 1%);
+      background-size: 5% 5%, 5% 5%, 10% 10%, 20% 20%, 20% 20%;
+      background-position: 0 0, 0 0, center, center top, center bottom;
+    }
+
+    /* Field markings */
+    .center-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .center-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .penalty-area-top {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 20%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .penalty-area-bottom {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 20%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .goal-area-top {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30%;
+      height: 10%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .goal-area-bottom {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30%;
+      height: 10%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Player styles */
+    .player {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: grab;
+      z-index: 10;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .player.dragging {
+      z-index: 20;
+      cursor: grabbing;
+    }
+
+    .player-jersey {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .player.dragging .player-jersey {
+      transform: scale(1.1);
+    }
+
+    .player-name {
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    .player-name span {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 4px;
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
+      border-radius: 4px;
+      color: #1e293b;
+    }
+
+    .edit-button {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    /* Edit popover */
+    .edit-popover {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 12px;
+      width: 200px;
+      z-index: 30;
+    }
+
+    .edit-popover-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .edit-popover-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #94a3b8;
+    }
+
+    .close-button:hover {
+      color: #64748b;
+    }
+
+    .edit-form-group {
+      margin-bottom: 8px;
+    }
+
+    .edit-form-label {
+      display: block;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .edit-form-input {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 16px;
+      background-color: #f8fafc;
+      text-align: center;
+      font-size: 14px;
+      color: #64748b;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* Color indicator */
+    .color-indicator {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .player-jersey {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .button span {
+        display: none;
+      }
+    }
+
+    /* Card container */
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>Real Sociedad Lineup Builder</h1>
+        <p>Drag players to position them on the field</p>
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <div class="control-item">
+            <label class="control-label">Formation</label>
+            <div class="select-wrapper">
+              <select id="formation-select" class="select">
+                <option value="442">4-4-2</option>
+                <option value="433">4-3-3</option>
+                <option value="4231">4-2-3-1</option>
+                <option value="352">3-5-2</option>
+                <option value="532">5-3-2</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-item">
+            <label class="control-label">Jersey Color</label>
+            <div class="select-wrapper">
+              <select id="color-select" class="select">
+                <option value="blue" data-primary="#0052cc" data-secondary="#ffffff">
+                  Blue
+                </option>
+                <option value="red" data-primary="#e60000" data-secondary="#ffffff">
+                  Red
+                </option>
+                <option value="white" data-primary="#ffffff" data-secondary="#000000">
+                  White
+                </option>
+                <option value="black" data-primary="#000000" data-secondary="#ffffff">
+                  Black
+                </option>
+                <option value="green" data-primary="#00994d" data-secondary="#ffffff">
+                  Green
+                </option>
+                <option value="yellow" data-primary="#ffcc00" data-secondary="#000000">
+                  Yellow
+                </option>
+                <option value="purple" data-primary="#7a00cc" data-secondary="#ffffff">
+                  Purple
+                </option>
+                <option value="orange" data-primary="#ff6600" data-secondary="#ffffff">
+                  Orange
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <button class="button">
+            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>Save</span>
+          </button>
+          <button class="button">
+            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Export</span>
+          </button>
+          <button class="button">
+            <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span>Share</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="field-container" class="field-container">
+        <div class="field">
+          <!-- Field markings -->
+          <div class="center-circle"></div>
+          <div class="center-line"></div>
+          <div class="penalty-area-top"></div>
+          <div class="penalty-area-bottom"></div>
+          <div class="goal-area-top"></div>
+          <div class="goal-area-bottom"></div>
+          
+          <!-- Players will be added here dynamically -->
+        </div>
+      </div>
+
+      <div class="footer">
+        <span id="instructions">Click on a player to edit their details. Drag players to position them on the field.</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Formation positions
+    const formationPositions = {
+      "442": [
+        { x: 50, y: 90, name: "GK", number: "1" },
+        { x: 20, y: 70, name: "LB", number: "3" },
+        { x: 40, y: 70, name: "CB", number: "5" },
+        { x: 60, y: 70, name: "CB", number: "6" },
+        { x: 80, y: 70, name: "RB", number: "2" },
+        { x: 20, y: 45, name: "LM", number: "11" },
+        { x: 40, y: 45, name: "CM", number: "8" },
+        { x: 60, y: 45, name: "CM", number: "6" },
+        { x: 80, y: 45, name: "RM", number: "7" },
+        { x: 40, y: 20, name: "ST", number: "9" },
+        { x: 60, y: 20, name: "ST", number: "10" },
+      ],
+      "433": [
+        { x: 50, y: 90, name: "GK", number: "1" },
+        { x: 20, y: 70, name: "LB", number: "3" },
+        { x: 40, y: 70, name: "CB", number: "5" },
+        { x: 60, y: 70, name: "CB", number: "6" },
+        { x: 80, y: 70, name: "RB", number: "2" },
+        { x: 30, y: 45, name: "CM", number: "8" },
+        { x: 50, y: 50, name: "CDM", number: "6" },
+        { x: 70, y: 45, name: "CM", number: "10" },
+        { x: 20, y: 20, name: "LW", number: "11" },
+        { x: 50, y: 20, name: "ST", number: "9" },
+        { x: 80, y: 20, name: "RW", number: "7" },
+      ],
+      "4231": [
+        { x: 50, y: 90, name: "GK", number: "1" },
+        { x: 20, y: 70, name: "LB", number: "3" },
+        { x: 40, y: 70, name: "CB", number: "5" },
+        { x: 60, y: 70, name: "CB", number: "6" },
+        { x: 80, y: 70, name: "RB", number: "2" },
+        { x: 40, y: 50, name: "CDM", number: "4" },
+        { x: 60, y: 50, name: "CDM", number: "8" },
+        { x: 20, y: 30, name: "LM", number: "11" },
+        { x: 50, y: 30, name: "CAM", number: "10" },
+        { x: 80, y: 30, name: "RM", number: "7" },
+        { x: 50, y: 15, name: "ST", number: "9" },
+      ],
+      "352": [
+        { x: 50, y: 90, name: "GK", number: "1" },
+        { x: 30, y: 70, name: "CB", number: "5" },
+        { x: 50, y: 75, name: "CB", number: "6" },
+        { x: 70, y: 70, name: "CB", number: "4" },
+        { x: 15, y: 50, name: "LWB", number: "3" },
+        { x: 35, y: 50, name: "CM", number: "8" },
+        { x: 50, y: 45, name: "CDM", number: "6" },
+        { x: 65, y: 50, name: "CM", number: "10" },
+        { x: 85, y: 50, name: "RWB", number: "2" },
+        { x: 40, y: 20, name: "ST", number: "9" },
+        { x: 60, y: 20, name: "ST", number: "11" },
+      ],
+      "532": [
+        { x: 50, y: 90, name: "GK", number: "1" },
+        { x: 10, y: 70, name: "LWB", number: "3" },
+        { x: 30, y: 70, name: "CB", number: "5" },
+        { x: 50, y: 75, name: "CB", number: "6" },
+        { x: 70, y: 70, name: "CB", number: "4" },
+        { x: 90, y: 70, name: "RWB", number: "2" },
+        { x: 30, y: 45, name: "CM", number: "8" },
+        { x: 50, y: 40, name: "CM", number: "6" },
+        { x: 70, y: 45, name: "CM", number: "10" },
+        { x: 40, y: 20, name: "ST", number: "9" },
+        { x: 60, y: 20, name: "ST", number: "11" },
+      ],
+    };
+
+    // Main application
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const fieldContainer = document.getElementById('field-container');
+      const field = fieldContainer.querySelector('.field');
+      const formationSelect = document.getElementById('formation-select');
+      const colorSelect = document.getElementById('color-select');
+      const instructionsEl = document.getElementById('instructions');
+
+      // State
+      let players = [];
+      let activePlayerId = null;
+      let editingPlayerId = null;
+      let isDragging = false;
+      let isMobile = window.innerWidth < 768 || 'ontouchstart' in window;
+      let jerseyColor = {
+        primary: '#0052cc',
+        secondary: '#ffffff'
+      };
+
+      // Update instructions based on device
+      if (isMobile) {
+        instructionsEl.textContent = 'Touch and drag players to position them on the field.';
+      }
+
+      // Initialize players based on formation
+      function initPlayers(formation) {
+        // Clear existing players
+        field.querySelectorAll('.player').forEach(el => el.remove());
+        
+        // Create new players
+        players = formationPositions[formation].map((pos, index) => {
+          const id = `player-${index}`;
+          const player = {
+            id,
+            x: pos.x,
+            y: pos.y,
+            name: pos.name,
+            number: pos.number
+          };
+          
+          renderPlayer(player);
+          return player;
+        });
+      }
+
+      // Render a player on the field
+      function renderPlayer(player) {
+        // Create player element
+        const playerEl = document.createElement('div');
+        playerEl.className = 'player';
+        playerEl.id = player.id;
+        playerEl.style.left = `${player.x}%`;
+        playerEl.style.top = `${player.y}%`;
+        
+        // Create jersey
+        const jersey = document.createElement('div');
+        jersey.className = 'player-jersey';
+        jersey.style.backgroundColor = jerseyColor.primary;
+        jersey.style.color = jerseyColor.secondary;
+        jersey.style.border = `2px solid ${jerseyColor.secondary}`;
+        jersey.textContent = player.number;
+        
+        // Create edit button
+        const editBtn = document.createElement('div');
+        editBtn.className = 'edit-button';
+        editBtn.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0052cc;">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+        `;
+        jersey.appendChild(editBtn);
+        
+        // Create name label
+        const nameEl = document.createElement('div');
+        nameEl.className = 'player-name';
+        nameEl.innerHTML = `<span>${player.name}</span>`;
+        
+        // Add to player element
+        playerEl.appendChild(jersey);
+        playerEl.appendChild(nameEl);
+        
+        // Add to field
+        field.appendChild(playerEl);
+        
+        // Setup event listeners
+        setupPlayerEvents(playerEl);
+      }
+
+      // Setup event listeners for a player
+      function setupPlayerEvents(playerEl) {
+        const playerId = playerEl.id;
+        
+        // Mouse events (desktop)
+        playerEl.addEventListener('mousedown', function(e) {
+          if (editingPlayerId) return;
+          e.preventDefault();
+          startDrag(playerId, e.clientX, e.clientY);
+        });
+        
+        // Touch events (mobile)
+        playerEl.addEventListener('touchstart', function(e) {
+          if (editingPlayerId) return;
+          e.preventDefault();
+          const touch = e.touches[0];
+          startDrag(playerId, touch.clientX, touch.clientY);
+        });
+        
+        // Edit button
+        const editBtn = playerEl.querySelector('.edit-button');
+        editBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          startEditing(playerId);
+        });
+      }
+
+      // Start dragging a player
+      function startDrag(playerId, clientX, clientY) {
+        const playerEl = document.getElementById(playerId);
+        if (!playerEl) return;
+        
+        activePlayerId = playerId;
+        isDragging = true;
+        playerEl.classList.add('dragging');
+        
+        // Get initial position
+        const rect = fieldContainer.getBoundingClientRect();
+        const initialX = clientX - rect.left;
+        const initialY = clientY - rect.top;
+        
+        // Setup move and end events
+        if (isMobile) {
+          document.addEventListener('touchmove', handleTouchMove);
+          document.addEventListener('touchend', handleDragEnd);
+        } else {
+          document.addEventListener('mousemove', handleMouseMove);
+          document.addEventListener('mouseup', handleDragEnd);
+        }
+        
+        // Mouse move handler
+        function handleMouseMove(e) {
+          if (!isDragging) return;
+          e.preventDefault();
+          movePlayer(e.clientX, e.clientY);
+        }
+        
+        // Touch move handler
+        function handleTouchMove(e) {
+          if (!isDragging) return;
+          e.preventDefault();
+          const touch = e.touches[0];
+          movePlayer(touch.clientX, touch.clientY);
+        }
+        
+        // Move player to position
+        function movePlayer(clientX, clientY) {
+          const rect = fieldContainer.getBoundingClientRect();
+          const x = ((clientX - rect.left) / rect.width) * 100;
+          const y = ((clientY - rect.top) / rect.height) * 100;
+          
+          // Ensure position stays within bounds
+          const boundedX = Math.max(5, Math.min(95, x));
+          const boundedY = Math.max(5, Math.min(95, y));
+          
+          // Update player position
+          playerEl.style.left = `${boundedX}%`;
+          playerEl.style.top = `${boundedY}%`;
+          
+          // Update player data
+          const player = players.find(p => p.id === playerId);
+          if (player) {
+            player.x = boundedX;
+            player.y = boundedY;
+          }
+        }
+        
+        // End drag
+        function handleDragEnd() {
+          if (!isDragging) return;
+          isDragging = false;
+          activePlayerId = null;
+          playerEl.classList.remove('dragging');
+          
+          // Remove event listeners
+          document.removeEventListener('mousemove', handleMouseMove);
+          document.removeEventListener('mouseup', handleDragEnd);
+          document.removeEventListener('touchmove', handleTouchMove);
+          document.removeEventListener('touchend', handleDragEnd);
+        }
+      }
+
+      // Start editing a player
+      function startEditing(playerId) {
+        // Remove any existing edit popover
+        const existingPopover = document.querySelector('.edit-popover');
+        if (existingPopover) {
+          existingPopover.remove();
+        }
+        
+        editingPlayerId = playerId;
+        const playerEl = document.getElementById(playerId);
+        if (!playerEl) return;
+        
+        const player = players.find(p => p.id === playerId);
+        if (!player) return;
+        
+        // Create edit popover
+        const popover = document.createElement('div');
+        popover.className = 'edit-popover';
+        popover.innerHTML = `
+          <div class="edit-popover-header">
+            <h4 class="edit-popover-title">Edit Player</h4>
+            <button class="close-button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="edit-form-group">
+            <label class="edit-form-label">Name/Position</label>
+            <input type="text" class="edit-form-input" id="player-name-input" value="${player.name}">
+          </div>
+          <div class="edit-form-group">
+            <label class="edit-form-label">Number</label>
+            <input type="text" class="edit-form-input" id="player-number-input" value="${player.number}" maxlength="2">
+          </div>
+        `;
+        
+        playerEl.appendChild(popover);
+        
+        // Position the popover
+        const playerRect = playerEl.getBoundingClientRect();
+        const fieldRect = fieldContainer.getBoundingClientRect();
+        
+        // Make sure popover stays within field bounds
+        if (playerRect.bottom + popover.offsetHeight > fieldRect.bottom) {
+          popover.style.top = 'auto';
+          popover.style.bottom = 'calc(100% + 8px)';
+        }
+        
+        // Setup event listeners
+        const closeBtn = popover.querySelector('.close-button');
+        closeBtn.addEventListener('click', stopEditing);
+        
+        const nameInput = popover.querySelector('#player-name-input');
+        const numberInput = popover.querySelector('#player-number-input');
+        
+        nameInput.addEventListener('input', function() {
+          updatePlayerInfo(playerId, 'name', this.value);
+        });
+        
+        numberInput.addEventListener('input', function() {
+          updatePlayerInfo(playerId, 'number', this.value);
+        });
+        
+        // Focus the name input
+        nameInput.focus();
+        
+        // Close when clicking outside
+        document.addEventListener('click', handleOutsideClick);
+        
+        function handleOutsideClick(e) {
+          if (!popover.contains(e.target) && e.target !== popover) {
+            stopEditing();
+            document.removeEventListener('click', handleOutsideClick);
+          }
+        }
+      }
+
+      // Stop editing a player
+      function stopEditing() {
+        const popover = document.querySelector('.edit-popover');
+        if (popover) {
+          popover.remove();
+        }
+        editingPlayerId = null;
+      }
+
+      // Update player information
+      function updatePlayerInfo(playerId, field, value) {
+        // Update player data
+        const player = players.find(p => p.id === playerId);
+        if (player) {
+          player[field] = value;
+        }
+        
+        // Update DOM
+        const playerEl = document.getElementById(playerId);
+        if (!playerEl) return;
+        
+        if (field === 'name') {
+          const nameEl = playerEl.querySelector('.player-name span');
+          nameEl.textContent = value;
+        } else if (field === 'number') {
+          const jersey = playerEl.querySelector('.player-jersey');
+          jersey.textContent = value;
+          
+          // Re-add the edit button
+          const editBtn = document.createElement('div');
+          editBtn.className = 'edit-button';
+          editBtn.innerHTML = `
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0052cc;">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+          `;
+          jersey.appendChild(editBtn);
+          
+          // Re-add event listener
+          editBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            startEditing(playerId);
+          });
+        }
+      }
+
+      // Update jersey colors
+      function updateJerseyColors() {
+        document.querySelectorAll('.player-jersey').forEach(jersey => {
+          jersey.style.backgroundColor = jerseyColor.primary;
+          jersey.style.color = jerseyColor.secondary;
+          jersey.style.border = `2px solid ${jerseyColor.secondary}`;
+        });
+      }
+
+      // Event listeners
+      formationSelect.addEventListener('change', function() {
+        initPlayers(this.value);
+      });
+      
+      colorSelect.addEventListener('change', function() {
+        const option = this.options[this.selectedIndex];
+        jerseyColor = {
+          primary: option.dataset.primary,
+          secondary: option.dataset.secondary
+        };
+        updateJerseyColors();
+      });
+      
+      // Close edit popover when clicking on field
+      fieldContainer.addEventListener('click', function(e) {
+        if (e.target === field || e.target === fieldContainer) {
+          stopEditing();
+        }
+      });
+      
+      // Handle window resize
+      window.addEventListener('resize', function() {
+        isMobile = window.innerWidth < 768 || 'ontouchstart' in window;
+        if (isMobile) {
+          instructionsEl.textContent = 'Touch and drag players to position them on the field.';
+        } else {
+          instructionsEl.textContent = 'Click on a player to edit their details. Drag players to position them on the field.';
+        }
+      });
+
+      // Initialize with default formation
+      initPlayers(formationSelect.value);
+    });
+  </script>
+</body>
+</html>
