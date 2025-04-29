@@ -221,8 +221,8 @@
 
   <script>
     const players = [
-      { position: 'M', name: 'simplyayapper', class: 'D', wage: '60,000-90,000€' },
-      { position: 'AM', name: 'secondbestinmps', class: 'A', wage: '250,000€' },
+      { position: 'AM', name: 'simplyayapper', class: 'D', wage: '60,000-90,000€' },
+      { position: 'M', name: 'secondbestinmps', class: 'A', wage: '250,000€' },
       { position: 'P', name: 'batsins', class: 'A', wage: '250,000€' },
       { position: 'P', name: 'tom577576', class: 'B', wage: '170,000€' },
       { position: 'P', name: 'insxghne', class: 'B', wage: '170,000€' },
@@ -240,13 +240,18 @@
       { position: 'P', name: 'JaSamVelikiCrnac', class: 'D', wage: '60,000-90,000€' },
       { position: 'P', name: 'DrissaoZoo', class: 'C', wage: '120,000€' },
       { position: 'P', name: 'IDHANp', class: 'C', wage: '120,000€' },
-      { position: 'P', name: 'vArcooros', class: 'A', wage: '250,000€' }
+      { position: 'P', name: 'vArcooros', class: 'A', wage: '250,000€' },
+      { position: 'P', name: 'BlackestAnwar3', class: 'B-', wage: '160,000€' },
+      { position: 'P', name: 'chiefdesired', class: 'S-', wage: '300,000€' },
+      { position: 'P', name: 'Nxmiii', class: 'B', wage: '170,000€' }
     ];
 
     function getClassColor(playerClass) {
       switch (playerClass) {
+        case 'S-': return 'text-blue-400';
         case 'A': return 'text-green-400';
-        case 'B': return 'text-blue-400';
+        case 'B': return 'text-yellow-400';
+        case 'B-': return 'text-yellow-500';
         case 'C': return 'text-orange-400';
         case 'D': return 'text-red-400';
         default: return 'text-gray-400';
