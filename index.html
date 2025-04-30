@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AC Milan Team Roster</title>
+  <title>Manchester City Team Roster</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <script>
@@ -11,10 +11,11 @@
       theme: {
         extend: {
           colors: {
-            milan: {
-              red: '#FB0F01',
-              black: '#000000',
-              gray: '#1A1A1A',
+            city: {
+              blue: '#6CABDD',
+              navy: '#1C2C5B',
+              sky: '#98C5E9',
+              white: '#FFFFFF',
               lightGray: '#F5F5F5',
             },
           },
@@ -41,7 +42,7 @@
       left: -20px;
       right: -20px;
       bottom: -20px;
-      background: linear-gradient(45deg, #FB0F01, #000000);
+      background: linear-gradient(45deg, #6CABDD, #1C2C5B);
       border-radius: 50%;
       z-index: -1;
       animation: glowAnimation 3s ease-in-out infinite;
@@ -61,7 +62,7 @@
       left: -100%;
       right: -100%;
       bottom: -100%;
-      background: linear-gradient(45deg, #FB0F01, #000000);
+      background: linear-gradient(45deg, #6CABDD, #1C2C5B);
       animation: flowAnimation 8s linear infinite;
       opacity: 0.15;
     }
@@ -96,21 +97,21 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-milan-black to-milan-gray">
+<body class="bg-gradient-to-br from-city-navy to-city-blue">
   <div id="homePage" class="min-h-screen">
-    <header class="w-full bg-milan-black text-white">
+    <header class="w-full bg-city-navy text-white">
       <div class="container mx-auto px-4 py-6 flex items-center">
         <div class="flex items-center">
           <div class="glow-effect inline-block">
             <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_of_AC_Milan.svg"
-              alt="AC Milan Logo"
+              src="https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg"
+              alt="Manchester City Logo"
               class="h-16 w-16 object-contain"
             />
           </div>
           <div class="ml-4">
             <h1 class="text-2xl md:text-3xl font-bold tracking-tighter">
-              AC MILAN
+              MANCHESTER CITY
             </h1>
             <p class="text-xs uppercase tracking-widest opacity-70">
               OFFICIAL TEAM ROSTER
@@ -124,14 +125,14 @@
       <div class="text-center mb-12 fade-in">
         <div class="glow-effect inline-block mb-6">
           <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_of_AC_Milan.svg"
-            alt="AC Milan Logo"
+            src="https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg"
+            alt="Manchester City Logo"
             class="h-32 w-32 object-contain"
           />
         </div>
         
         <h1 class="text-4xl md:text-6xl font-bold text-white mb-3">
-          <span class="text-milan-red">AC MILAN</span> TEAM ROSTER
+          <span class="text-city-sky">MANCHESTER CITY</span> TEAM ROSTER
         </h1>
         <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto">
           Explore our squad of world-class players in a futuristic interface designed for the modern football era.
@@ -141,7 +142,7 @@
       <div class="flex justify-center">
         <button
           onclick="showRoster()"
-          class="group flex items-center bg-milan-red hover:bg-red-700 text-white px-8 py-4 rounded-lg text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 fade-in"
+          class="group flex items-center bg-city-sky hover:bg-city-blue text-city-navy px-8 py-4 rounded-lg text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 fade-in"
           style="animation-delay: 200ms"
         >
           View Team Roster
@@ -153,20 +154,20 @@
     </main>
   </div>
 
-  <div id="rosterPage" class="hidden min-h-screen bg-milan-black">
-    <header class="w-full bg-milan-black text-white border-b border-milan-red/20">
+  <div id="rosterPage" class="hidden min-h-screen bg-city-navy">
+    <header class="w-full bg-city-navy text-white border-b border-city-sky/20">
       <div class="container mx-auto px-4 py-6 flex items-center justify-between">
         <div class="flex items-center">
           <div class="glow-effect inline-block">
             <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_of_AC_Milan.svg"
-              alt="AC Milan Logo"
+              src="https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg"
+              alt="Manchester City Logo"
               class="h-16 w-16 object-contain"
             />
           </div>
           <div class="ml-4">
             <h1 class="text-2xl md:text-3xl font-bold tracking-tighter">
-              AC MILAN
+              MANCHESTER CITY
             </h1>
             <p class="text-xs uppercase tracking-widest opacity-70">
               OFFICIAL TEAM ROSTER
@@ -175,7 +176,7 @@
         </div>
         <button 
           onclick="showHome()" 
-          class="bg-milan-red hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2"
+          class="bg-city-sky hover:bg-city-blue text-city-navy px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -195,15 +196,15 @@
         </p>
       </div>
 
-      <div class="bg-milan-gray/10 rounded-lg shadow-lg overflow-hidden table-glow backdrop-blur-sm">
+      <div class="bg-city-navy/10 rounded-lg shadow-lg overflow-hidden table-glow backdrop-blur-sm">
         <div class="overflow-x-auto">
           <table class="w-full">
             <thead>
-              <tr class="border-b border-milan-red/20">
-                <th class="px-4 py-3 text-left text-milan-red font-bold">Position</th>
-                <th class="px-4 py-3 text-left text-milan-red font-bold">Player Name</th>
-                <th class="px-4 py-3 text-center text-milan-red font-bold">Class</th>
-                <th class="px-4 py-3 text-right text-milan-red font-bold">Wage</th>
+              <tr class="border-b border-city-sky/20">
+                <th class="px-4 py-3 text-left text-city-sky font-bold">Position</th>
+                <th class="px-4 py-3 text-left text-city-sky font-bold">Player Name</th>
+                <th class="px-4 py-3 text-center text-city-sky font-bold">Class</th>
+                <th class="px-4 py-3 text-right text-city-sky font-bold">Wage</th>
               </tr>
             </thead>
             <tbody id="playerTableBody"></tbody>
@@ -212,20 +213,21 @@
       </div>
     </main>
 
-    <footer class="bg-milan-black border-t border-milan-red/20 py-4">
+    <footer class="bg-city-navy border-t border-city-sky/20 py-4">
       <div class="container mx-auto px-4 text-center text-white text-sm opacity-70">
-        © <span id="currentYear"></span> AC Milan. All rights reserved.
+        © <span id="currentYear"></span> Manchester City. All rights reserved.
       </div>
     </footer>
   </div>
 
   <script>
     const players = [
-      { position: 'AM', name: 'simplyayapper', class: 'D', wage: '60,000-90,000€' },
-      { position: 'M', name: 'secondbestinmps', class: 'A', wage: '250,000€' },
+      { position: 'M', name: 'simplyayapper', class: 'D', wage: '60,000-90,000€' },
+      { position: 'AM', name: 'secondbestinmps', class: 'A', wage: '250,000€' },
       { position: 'P', name: 'batsins', class: 'A', wage: '250,000€' },
       { position: 'P', name: 'tom577576', class: 'B', wage: '170,000€' },
       { position: 'P', name: 'insxghne', class: 'B', wage: '170,000€' },
+      { position: 'P', name: 'Andreygo2008', class: 'B', wage: '170,000€' },
       { position: 'P', name: 'Wkytron', class: 'A', wage: '250,000€' },
       { position: 'P', name: 'Daff0super', class: 'B', wage: '170,000€' },
       { position: 'P', name: 'myzola', class: 'B', wage: '170,000€' },
@@ -234,13 +236,11 @@
       { position: 'P', name: 'xlraqi', class: 'B', wage: '170,000€' },
       { position: 'P', name: 'x135_law', class: 'D', wage: '60,000-90,000€' },
       { position: 'P', name: 'end0fdev', class: 'C', wage: '120,000€' },
-      { position: 'P', name: 'JaSamVelikiCrnac', class: 'D', wage: '60,000-90,000€' },
-      { position: 'P', name: 'DrissaoZoo', class: 'C', wage: '120,000€' },
       { position: 'P', name: 'IDHANp', class: 'C', wage: '120,000€' },
-      { position: 'P', name: 'vArcooros', class: 'A', wage: '250,000€' },
-      { position: 'P', name: 'BlackestAnwar3', class: 'B-', wage: '160,000€' },
-      { position: 'P', name: 'chiefdesired', class: 'S-', wage: '300,000€' },
-      { position: 'P', name: 'Nxmiii', class: 'B', wage: '170,000€' }
+      { position: 'P', name: 'vArcooros', class: 'A', wage: '250,000€' }
+      { position: 'P', name: 'BlackestAnwar3', class: 'B-', wage: '160,000€' }
+      { position: 'P', name: 'vArcooros', class: 'A', wage: '250,000€' }
+      { position: 'P', name: 'Nxmiii', class: 'B', wage: '250,000€' }
     ];
 
     function getClassColor(playerClass) {
@@ -248,7 +248,7 @@
         case 'S-': return 'text-blue-400';
         case 'A': return 'text-green-400';
         case 'B': return 'text-yellow-400';
-        case 'B-': return 'text-yellow-500';
+        case 'B-': return 'text-yellow-600';
         case 'C': return 'text-orange-400';
         case 'D': return 'text-red-400';
         default: return 'text-gray-400';
@@ -259,9 +259,9 @@
       const tableBody = document.getElementById('playerTableBody');
       tableBody.innerHTML = players
         .map((player, index) => `
-          <tr class="border-b border-milan-red/10 hover:bg-milan-red/5 transition-colors fade-in text-white" style="animation-delay: ${index * 50}ms">
+          <tr class="border-b border-city-sky/10 hover:bg-city-sky/5 transition-colors fade-in text-white" style="animation-delay: ${index * 50}ms">
             <td class="px-4 py-3">
-              <span class="inline-block bg-milan-red text-white font-bold rounded text-sm px-2 py-1">
+              <span class="inline-block bg-city-sky text-city-navy font-bold rounded text-sm px-2 py-1">
                 ${player.position}
               </span>
             </td>
@@ -288,10 +288,7 @@
       document.getElementById('homePage').classList.remove('hidden');
     }
 
-    // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    // Initial render
     renderPlayers();
   </script>
 </body>
